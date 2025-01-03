@@ -7,6 +7,7 @@ from django.utils import timezone
 # Create your models here.
 class CustomUser(AbstractUser):
     bio = models.TextField(blank = True, null = True)
+    user_tag = models.CharField(max_length=50, blank=True, null=True)
     profile_picture = models.ImageField(upload_to = 'profile_img', blank = True, null = True)   # needs pip install Pillow
     linkedin = models.URLField(max_length=255, blank=True, null=True)
     facebook = models.URLField(max_length=255, blank=True, null=True)
@@ -23,7 +24,7 @@ class Blog(models.Model):
                 )
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True, max_length=255)
-    content = models.TextField()
+    content = models.TextField(blank=True, null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='blogs', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

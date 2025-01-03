@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .serializers import UpdateUserProfileSerializer, UserRegistrationSerializer, BlogSerializer
+from .serializers import UpdateUserProfileSerializer, UserInfoSerializer, UserRegistrationSerializer, BlogSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from .models import Blog
 from rest_framework.pagination import PageNumberPagination
+from django.contrib.auth import get_user_model
 
 @api_view(['POST'])
 def register_user(request):
@@ -23,14 +24,21 @@ def create_blog(request):
     if serializer.is_valid():
         serializer.save(author = user)
         return Response(serializer.data)
+    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def blog_list(request):
-    blogs = Blog.objects.all()
-    serializer = BlogSerializer(blogs, many=True)
-    return Response(serializer.data)
+#@api_view(['GET'])
+#def blog_list(request):
+#    blogs = Blog.objects.all()
+#    serializer = BlogSerializer(blogs, many=True)
+#    return Response(serializer.data)
 
+# blog detail page
+@api_view(['GET'])
+def get_blog(request, slug):
+    blog = Blog.objects.get(slug=slug)
+    serializer = BlogSerializer(blog)
+    return Response(serializer.data)
 
 # update blog
 @api_view(['PUT'])
@@ -68,6 +76,7 @@ def update_user_profile(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -80,5 +89,23 @@ def blog_list(request):
     blogs = Blog.objects.all()
     paginator =  BlogListPagination()
     paginated_blogs = paginator.paginate_queryset(blogs, request)
+    print(f"Paginated Blogs: {paginated_blogs}") 
+    print(f"Request Query Params: {request.query_params}")  
     serializer = BlogSerializer(paginated_blogs, many=True)
     return paginator.get_paginated_response(serializer.data)
+
+# get username
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_username(request):
+    user = request.user
+    username = user.username
+    return Response({"username": username})
+
+# get userinfo
+@api_view(['GET'])
+def get_userinfo(request, username):
+    User = get_user_model()
+    user = User.objects.get(username=username)
+    serializer = UserInfoSerializer(user)
+    return Response(serializer.data)
