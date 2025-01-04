@@ -138,5 +138,6 @@ CORS_ALLOWED_ORIGINS = [
 "https://domain.com",
 "https://api.domain.com",
 "http://localhost:5173",
-"http://127.0.0.1:5173"
+"http://127.0.0.1:5173",
+"https://full-stack-blog-frontend-oh4r.onrender.com",
 ]
