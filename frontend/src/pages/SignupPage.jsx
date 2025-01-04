@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 
-const SignupPage = ({
+const SignUpPage = ({
   setIsAuthenticated,
   setUsername,
   userInfo,
@@ -37,14 +37,17 @@ const SignupPage = ({
   // register
   const mutation = useMutation({
     mutationFn: (data) => registerUser(data),
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables) => {
       toast.success("Account created successfully! Logging you in...");
+      console.log(variables.username, variables.plainPassword); 
+
       try {
         // Automatically log the user in after signup
         const loginResponse = await signin({
-          username: data.username,
-          password: data.password, // Using the same password they just signed up with
+          username: variables.username,
+          password: variables.plainPassword, // Using the same password they just signed up with
         });
+        console.log("Signin data:", { username: variables.username, password: variables.plainPassword });
 
         // Store tokens and username in localStorage
         localStorage.setItem("access", loginResponse.access);
@@ -70,7 +73,7 @@ const SignupPage = ({
   });
 
   function onSubmit(data) {    
-    console.log(data)
+    console.log('onSubmit data',data)
 
     if(updateForm){
       const formData = new FormData()
@@ -87,7 +90,11 @@ const SignupPage = ({
       updateProfileMutation.mutate(formData)
     }
     else{
-      mutation.mutate(data);
+      mutation.mutate({
+        ...data,
+        plainPassword: data.password
+      });
+      
     }
   }
 
@@ -279,4 +286,4 @@ const SignupPage = ({
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

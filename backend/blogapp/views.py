@@ -14,6 +14,7 @@ def register_user(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    print("Serializer Errors:", serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
@@ -24,7 +25,8 @@ def create_blog(request):
     if serializer.is_valid():
         serializer.save(author = user)
         return Response(serializer.data)
-    print(serializer.errors)
+    print("Validation Errors:", serializer.errors) 
+    print("Received Data:", request.data) 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #@api_view(['GET'])

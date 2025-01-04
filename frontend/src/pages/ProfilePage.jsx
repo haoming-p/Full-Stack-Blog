@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Spinner from "@/ui_components/Spinner";
 import Modal from "@/ui_components/Modal";
-import SignupPage from "./SignupPage";
+import SignUpPage from "./SignUpPage";
 import { useState } from "react";
 
 const ProfilePage = ({ authUsername }) => {
@@ -37,7 +37,7 @@ const ProfilePage = ({ authUsername }) => {
       <BlogContainer blogs={blogs} title={`🍔 ${username}'s Posts`} />
       {showModal && (
         <Modal toggleModal={toggleModal}>
-          <SignupPage userInfo={data} updateForm={true} toggleModal={toggleModal}/>
+          <SignUpPage userInfo={data} updateForm={true} toggleModal={toggleModal}/>
         </Modal>
       )}
     </>

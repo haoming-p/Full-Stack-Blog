@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import HomePage from "./pages/HomePage";
 import DetailPage from "./pages/DetailPage";
-import SignupPage from "./pages/SignUpPage";
+import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import ProtectedRoute from "./ui_components/ProtectedRoute";
@@ -67,7 +67,7 @@ const App = () => {
           <Route
             path="signup"
             element={
-              <SignupPage
+              <SignUpPage
                 setUsername={setUsername}
                 setIsAuthenticated={setIsAuthenticated}
               />

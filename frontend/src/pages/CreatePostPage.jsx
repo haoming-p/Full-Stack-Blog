@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import SmallSpinner from "@/ui_components/SmallSpinner";
 import SmallSpinnerText from "@/ui_components/SmallSpinnerText";
 import LoginPage from "./LoginPage";
+import axiosInstance from "@/services/axiosInstance";
 
 const CreatePostPage = ({ blog, isAuthenticated }) => {  
   const { register, handleSubmit, formState, setValue } = useForm({
@@ -44,7 +45,13 @@ const CreatePostPage = ({ blog, isAuthenticated }) => {
   });
 
   const mutation = useMutation({
-    mutationFn: (data) => createBlog(data),
+    mutationFn: (data) =>
+      axiosInstance.post("create_blog/", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }),
+      
     onSuccess: () => {
       toast.success("New post added successfully");
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
@@ -54,11 +61,14 @@ const CreatePostPage = ({ blog, isAuthenticated }) => {
 
   function onSubmit(data) {
     const formData = new FormData();
+    console.log([...formData.entries()]);
+
     formData.append("title", data.title);
     formData.append("content", data.content);
     formData.append("category", data.category);
 
     if (data.featured_image && data.featured_image[0]) {
+      console.log("Image file:", data.featured_image[0]);
       if (data.featured_image[0] != "/") {
         formData.append("featured_image", data.featured_image[0]);
       }

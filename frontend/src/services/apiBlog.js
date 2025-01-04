@@ -38,10 +38,11 @@ export async function signin(data) {
     const response = await axiosInstance.post("token/", data);
     return response.data;
   } catch (err) {
+    console.error("Error details:", err.response?.data || err.message);
     if (err.status === 401) {
       throw new Error("invalid credentials");
     }
-    throw new Error(err);
+    throw new Error(err.message);
   }
 }
 

@@ -1,11 +1,14 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-console.log(jwtDecode)
+export const BASE_URL =
+  import.meta.env.VITE_BASE_URL || "http://127.0.0.1:8007/";
 
-export const BASE_URL = "http://127.0.0.1:8007/";
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 axiosInstance.interceptors.request.use(

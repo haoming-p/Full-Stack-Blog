@@ -20,6 +20,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         new_user.set_password(password)
         new_user.save()
         return new_user
+    def validate_username(self, value):
+        if get_user_model().objects.filter(username=value).exists():
+            raise serializers.ValidationError("This username is already taken.")
+        return value
 
 class SimpleAuthorSerializer(serializers.ModelSerializer):
     class Meta:
