@@ -21,6 +21,8 @@ import LoginPage from "./LoginPage";
 import axiosInstance from "@/services/axiosInstance";
 
 const CreatePostPage = ({ blog, isAuthenticated }) => {  
+
+  
   const { register, handleSubmit, formState, setValue } = useForm({
     defaultValues: blog ? blog : {},
   });
@@ -71,7 +73,7 @@ const CreatePostPage = ({ blog, isAuthenticated }) => {
       console.log("Appending Image File:", data.featured_image[0]);
       formData.append("featured_image", data.featured_image[0]);
     }
-    
+
     if (blog && blogID) {
       updateMutation.mutate({ data: formData, id: blogID });
     } else {
@@ -159,6 +161,12 @@ const CreatePostPage = ({ blog, isAuthenticated }) => {
           id="picture"
           {...register("featured_image")}
           className="border-2 border-[#141624] dark:border-[#3B3C4A] focus:outline-0 h-[40px] w-full max-sm:w-[300px] max-sm:text-[14px]"
+          onChange={(e) => {
+            const file = e.target.files[0]; // Get the uploaded file
+            if (file) {
+              console.log("Uploaded Image File:", file); // Log the image file object
+            }
+          }}
         />
 
       </div>

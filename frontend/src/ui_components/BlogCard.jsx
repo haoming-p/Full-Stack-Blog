@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 const BlogCard = ({blog}) => {
   console.log("Image URL:", `${BASE_URL}${blog.featured_image}`);
+  console.log("Image URL try", `${BASE_URL.replace(/\/$/, "")}${blog.featured_image}`)
   
   return (
     <div className="px-3 py-3 rounded-md w-[300px] h-auto flex flex-col gap-4 dark:border-gray-800 border shadow-lg">
