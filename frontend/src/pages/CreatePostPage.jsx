@@ -68,11 +68,10 @@ const CreatePostPage = ({ blog, isAuthenticated }) => {
     formData.append("category", data.category);
 
     if (data.featured_image && data.featured_image[0]) {
-      console.log("Image file:", data.featured_image[0]);
-      if (data.featured_image[0] != "/") {
-        formData.append("featured_image", data.featured_image[0]);
-      }
+      console.log("Appending Image File:", data.featured_image[0]);
+      formData.append("featured_image", data.featured_image[0]);
     }
+    
     if (blog && blogID) {
       updateMutation.mutate({ data: formData, id: blogID });
     } else {
