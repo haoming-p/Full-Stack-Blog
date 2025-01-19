@@ -85,7 +85,7 @@ const DetailPage = ({ username, isAuthenticated }) => {
         <div className="w-full h-[350px] my-9 overflow-hidden rounded-sm">
           <img
             className="w-full h-full object-cover rounded-sm"
-            src={`${BASE_URL}${blog.featured_image}`}
+            src={`${BASE_URL.replace(/\/$/, "")}${blog.featured_image}`}
           />
         </div>
         <p className="text-[16px] leading-[2rem] text-justify text-[#3B3C4A] dark:text-[#BABABF]">
